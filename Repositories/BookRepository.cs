@@ -18,16 +18,34 @@ namespace BookManagementAPI.Repositories
 
         public void Delete(Book book)
         {
-            throw new NotImplementedException();
+            var existingBook = GetById(book.Id);
+            _books.Remove(existingBook);
+
         }
         public Book GetById(int id)
         {
-            throw new NotImplementedException();
+           Book? book = _books.FirstOrDefault(b => b.Id == id);
+            if (book == null)
+            {
+                throw new KeyNotFoundException($"Book with Id {id} not found.");
+            }
+            return book;
         }
 
         public void Update(Book book)
         {
-            throw new NotImplementedException();
+            var existingBook = GetById(book.Id);
+            if (book == null)
+            {
+                throw new KeyNotFoundException($"Book not found.");
+            }
+
+            // Update properties
+            existingBook.Title = book.Title;
+            existingBook.Author = book.Author;
+            existingBook.Isbn = book.Isbn;
+            existingBook.PublicationDate = book.PublicationDate;
+
         }
     }
 }
